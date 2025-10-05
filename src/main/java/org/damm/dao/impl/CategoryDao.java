@@ -1,31 +1,55 @@
 package org.damm.dao.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import java.io.Closeable;
+import java.util.List;
 import org.damm.dao.Dao;
 import org.damm.entity.Category;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
+public class CategoryDao implements Dao<Category, Long>, Closeable {
 
-public class CategoryDao implements Dao<Category, Integer> {
-	
-	private EntityManager em;
-	
+	private final EntityManagerFactory entityManagerFactory;
+	private final EntityManager entityManager;
+
 	public CategoryDao() {
-		this.em = Persistence.createEntityManagerFactory("category").createEntityManager();
+		entityManagerFactory = Persistence.createEntityManagerFactory("data");
+		entityManager = entityManagerFactory.createEntityManager();
 	}
-	
+
 	@Override
-	public Category findById(Integer integer) {
-		return null;
+	public List<Category> findAll() {
+		String jpql = "SELECT c FROM Category c";
+		TypedQuery<Category> query = entityManager.createQuery(jpql, Category.class);
+		return query.getResultList();
 	}
-	
+
 	@Override
-	public Category save(Category category) {
-		return null;
+	public Category findById(Long id) {
+		return entityManager.find(Category.class, id);
 	}
-	
+
 	@Override
-	public void delete(Category category) {
-	
+	public Category save(Category entity) {
+		entityManager.getTransaction().begin();
+		Category newEntity = entityManager.merge(entity);
+		entityManager.getTransaction().commit();
+		return newEntity;
 	}
+
+	@Override
+	public void delete(Category entity) {
+		entityManager.getTransaction().begin();
+		entityManager.remove(entity);
+		entityManager.getTransaction().commit();
+	}
+
+	@Override
+	public void close() {
+		entityManager.close();
+		entityManagerFactory.close();
+	}
+
 }

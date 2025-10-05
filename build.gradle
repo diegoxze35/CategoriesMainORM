@@ -14,7 +14,14 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     // https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api
-    implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2'
+    /*implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2'
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core*/
+    implementation 'org.hibernate:hibernate-core:7.1.2.Final'
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation 'org.postgresql:postgresql:42.7.8'
 }
 
 test {

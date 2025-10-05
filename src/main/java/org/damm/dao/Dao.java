@@ -1,7 +1,11 @@
 package org.damm.dao;
 
-public interface Dao<ENTITY, ID> {
-	public ENTITY findById(ID id);
-	public ENTITY save(ENTITY entity);
-	public void delete(ENTITY entity);
+import java.io.Closeable;
+import java.util.List;
+
+public interface Dao<ENTITY, ID> extends Closeable {
+	List<ENTITY> findAll();
+	ENTITY findById(ID id);
+	ENTITY save(ENTITY entity);
+	void delete(ENTITY entity);
 }
