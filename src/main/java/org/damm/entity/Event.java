@@ -22,7 +22,7 @@ public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idEvent;
+	private Integer idEvent;
 
 	@Column(nullable = false)
 	private String description;

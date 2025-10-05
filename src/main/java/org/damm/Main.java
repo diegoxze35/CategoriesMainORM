@@ -1,26 +1,17 @@
 package org.damm;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
+import javax.swing.SwingUtilities;
 import org.damm.dao.Dao;
 import org.damm.dao.impl.CategoryDao;
+import org.damm.dao.impl.EventDao;
 import org.damm.entity.Category;
+import org.damm.entity.Event;
+import org.damm.ui.CrudUI;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		Dao<Category, Long> categoryDao = new CategoryDao();
-		Category category = new Category();
-		category.setName("Test");
-		category.setDescription("Test description");
-		category.setCreatedAt(LocalDateTime.now());
-		var inserted = categoryDao.save(category);
-		System.out.println(inserted);
-		categoryDao.findAll().forEach(System.out::println);
-		inserted.setName("Test UPDATED");
-		System.out.println(categoryDao.save(inserted));
-		categoryDao.findAll().forEach(System.out::println);
-		categoryDao.delete(inserted);
-		categoryDao.findAll().forEach(System.out::println);
-		categoryDao.close();
+	public static void main(String[] args) {
+		final Dao<Category, Integer> categoryDao = new CategoryDao();
+		final Dao<Event, Integer> eventDao = new EventDao();
+		SwingUtilities.invokeLater(() -> new CrudUI(categoryDao, eventDao).setVisible(true));
 	}
 }

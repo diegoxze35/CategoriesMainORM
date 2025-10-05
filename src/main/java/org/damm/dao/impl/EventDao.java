@@ -4,43 +4,42 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-import java.io.Closeable;
 import java.util.List;
 import org.damm.dao.Dao;
-import org.damm.entity.Category;
+import org.damm.entity.Event;
 
-public class CategoryDao implements Dao<Category, Integer>, Closeable {
+public class EventDao implements Dao<Event, Integer> {
 
 	private final EntityManagerFactory entityManagerFactory;
 	private final EntityManager entityManager;
 
-	public CategoryDao() {
+	public EventDao() {
 		entityManagerFactory = Persistence.createEntityManagerFactory("data");
 		entityManager = entityManagerFactory.createEntityManager();
 	}
 
 	@Override
-	public List<Category> findAll() {
-		String jpql = "SELECT c FROM Category c";
-		TypedQuery<Category> query = entityManager.createQuery(jpql, Category.class);
+	public List<Event> findAll() {
+		String jpql = "SELECT c FROM Event c";
+		TypedQuery<Event> query = entityManager.createQuery(jpql, Event.class);
 		return query.getResultList();
 	}
 
 	@Override
-	public Category findById(Integer id) {
-		return entityManager.find(Category.class, id);
+	public Event findById(Integer id) {
+		return entityManager.find(Event.class, id);
 	}
 
 	@Override
-	public Category save(Category entity) {
+	public Event save(Event entity) {
 		entityManager.getTransaction().begin();
-		Category newEntity = entityManager.merge(entity);
+		Event newEntity = entityManager.merge(entity);
 		entityManager.getTransaction().commit();
 		return newEntity;
 	}
 
 	@Override
-	public void delete(Category entity) {
+	public void delete(Event entity) {
 		entityManager.getTransaction().begin();
 		entityManager.remove(entity);
 		entityManager.getTransaction().commit();
@@ -51,5 +50,4 @@ public class CategoryDao implements Dao<Category, Integer>, Closeable {
 		entityManager.close();
 		entityManagerFactory.close();
 	}
-
 }
